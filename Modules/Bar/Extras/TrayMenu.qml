@@ -242,7 +242,7 @@ PopupWindow {
       enabled: !root.useNone && root.useFade
       NumberAnimation {
         duration: Style.animationNormal
-        easing.type: Easing.OutQuad
+        easing.type: Style.easingTypeFast
       }
     }
 
@@ -250,7 +250,7 @@ PopupWindow {
       enabled: !root.useNone && root.useScale
       NumberAnimation {
         duration: Style.animationNormal
-        easing.type: Easing.OutQuad
+        easing.type: Style.easingTypeFast
       }
     }
   }
@@ -271,7 +271,7 @@ PopupWindow {
       enabled: !root.useNone && root.useFade
       NumberAnimation {
         duration: Style.animationNormal
-        easing.type: Easing.OutQuad
+        easing.type: Style.easingTypeFast
       }
     }
 
@@ -279,7 +279,7 @@ PopupWindow {
       enabled: !root.useNone && root.useScale
       NumberAnimation {
         duration: Style.animationNormal
-        easing.type: Easing.OutQuad
+        easing.type: Style.easingTypeFast
       }
     }
 

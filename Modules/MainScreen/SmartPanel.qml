@@ -693,7 +693,7 @@ Item {
       id: opacityAnimation
       // Use faster animation for non-fade types, or when fade is primary animation
       duration: root.useNone ? 0 : (root.isClosing ? Style.animationFaster : (root.useFade ? Style.animationFast : Style.animationFaster))
-      easing.type: Easing.OutQuad
+      easing.type: Style.easingTypeFast
 
       onRunningChanged: {
         // Safety: If animation didn't run (zero duration), handle immediately
@@ -1061,7 +1061,7 @@ Item {
         NumberAnimation {
           id: scaleAnimation
           duration: root.isClosing ? Style.animationFast : Style.animationNormal
-          easing.type: Easing.OutQuad
+          easing.type: Style.easingTypeFast
 
           onRunningChanged: {
             // When scale shrink completes during close, finalize if no slide animation

@@ -407,7 +407,7 @@ Variants {
               enabled: !card.useNone && card.useFade
               NumberAnimation {
                 duration: Style.animationNormal
-                easing.type: Easing.OutCubic
+                easing.type: Style.easingTypeDefault
               }
             }
 

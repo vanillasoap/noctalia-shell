@@ -34,7 +34,7 @@ ColumnLayout {
       enabled: root._userInteracted
       ColorAnimation {
         duration: Style.animationNormal
-        easing.type: Easing.OutCubic
+        easing.type: Style.easingTypeDefault
       }
     }
 
@@ -42,7 +42,7 @@ ColumnLayout {
       enabled: root._userInteracted
       ColorAnimation {
         duration: Style.animationNormal
-        easing.type: Easing.OutCubic
+        easing.type: Style.easingTypeDefault
       }
     }
 
@@ -92,7 +92,7 @@ ColumnLayout {
           enabled: root._userInteracted
           NumberAnimation {
             duration: Style.animationNormal
-            easing.type: Easing.OutCubic
+            easing.type: Style.easingTypeDefault
           }
         }
 
@@ -166,7 +166,7 @@ ColumnLayout {
       enabled: root._userInteracted
       NumberAnimation {
         duration: Style.animationNormal
-        easing.type: Easing.OutCubic
+        easing.type: Style.easingTypeDefault
       }
     }
 
@@ -184,7 +184,7 @@ ColumnLayout {
       enabled: root._userInteracted
       NumberAnimation {
         duration: Style.animationNormal
-        easing.type: Easing.OutCubic
+        easing.type: Style.easingTypeDefault
       }
     }
   }

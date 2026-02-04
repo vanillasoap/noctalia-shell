@@ -109,7 +109,7 @@ Item {
       enabled: !Color.isTransitioning
       ColorAnimation {
         duration: Style.animationFast
-        easing.type: Easing.InOutQuad
+        easing.type: Style.easingTypeSlow
       }
     }
   }
@@ -163,21 +163,21 @@ Item {
       enabled: showAnim.running || hideAnim.running
       NumberAnimation {
         duration: Style.animationNormal
-        easing.type: Easing.OutCubic
+        easing.type: Style.easingTypeDefault
       }
     }
     Behavior on height {
       enabled: showAnim.running || hideAnim.running
       NumberAnimation {
         duration: Style.animationNormal
-        easing.type: Easing.OutCubic
+        easing.type: Style.easingTypeDefault
       }
     }
     Behavior on opacity {
       enabled: showAnim.running || hideAnim.running
       NumberAnimation {
         duration: Style.animationFast
-        easing.type: Easing.OutCubic
+        easing.type: Style.easingTypeDefault
       }
     }
   }
@@ -215,7 +215,7 @@ Item {
       from: 1
       to: maxPillWidth
       duration: Style.animationNormal
-      easing.type: Easing.OutCubic
+      easing.type: Style.easingTypeDefault
     }
     NumberAnimation {
       target: pill
@@ -223,7 +223,7 @@ Item {
       from: 1
       to: maxPillHeight
       duration: Style.animationNormal
-      easing.type: Easing.OutCubic
+      easing.type: Style.easingTypeDefault
     }
     NumberAnimation {
       target: pill
@@ -231,7 +231,7 @@ Item {
       from: 0
       to: 1
       duration: Style.animationFast
-      easing.type: Easing.OutCubic
+      easing.type: Style.easingTypeDefault
     }
     onStarted: {
       showPill = true;

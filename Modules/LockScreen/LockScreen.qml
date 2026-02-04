@@ -150,7 +150,7 @@ Loader {
               Behavior on opacity {
                 NumberAnimation {
                   duration: Style.animationNormal
-                  easing.type: Easing.OutCubic
+                  easing.type: Style.easingTypeDefault
                 }
               }
             }
@@ -189,7 +189,7 @@ Loader {
               Behavior on opacity {
                 NumberAnimation {
                   duration: Style.animationNormal
-                  easing.type: Easing.OutCubic
+                  easing.type: Style.easingTypeDefault
                 }
               }
             }
@@ -247,7 +247,7 @@ Loader {
               Behavior on opacity {
                 NumberAnimation {
                   duration: Style.animationNormal
-                  easing.type: Easing.OutCubic
+                  easing.type: Style.easingTypeDefault
                 }
               }
             }

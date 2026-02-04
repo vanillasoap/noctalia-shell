@@ -493,7 +493,7 @@ Variants {
           enabled: !root.useNone && root.useFade
           NumberAnimation {
             duration: Style.animationNormal
-            easing.type: Easing.InOutQuad
+            easing.type: Style.easingTypeSlow
           }
         }
 
@@ -501,7 +501,7 @@ Variants {
           enabled: !root.useNone && root.useScale
           NumberAnimation {
             duration: Style.animationNormal
-            easing.type: Easing.InOutQuad
+            easing.type: Style.easingTypeSlow
           }
         }
 
@@ -574,7 +574,7 @@ Variants {
               Behavior on color {
                 ColorAnimation {
                   duration: Style.animationNormal
-                  easing.type: Easing.InOutQuad
+                  easing.type: Style.easingTypeSlow
                 }
               }
             }
@@ -611,13 +611,13 @@ Variants {
                 Behavior on width {
                   NumberAnimation {
                     duration: Style.animationNormal
-                    easing.type: Easing.InOutQuad
+                    easing.type: Style.easingTypeSlow
                   }
                 }
                 Behavior on color {
                   ColorAnimation {
                     duration: Style.animationNormal
-                    easing.type: Easing.InOutQuad
+                    easing.type: Style.easingTypeSlow
                   }
                 }
               }
@@ -742,13 +742,13 @@ Variants {
                   Behavior on height {
                     NumberAnimation {
                       duration: Style.animationNormal
-                      easing.type: Easing.InOutQuad
+                      easing.type: Style.easingTypeSlow
                     }
                   }
                   Behavior on color {
                     ColorAnimation {
                       duration: Style.animationNormal
-                      easing.type: Easing.InOutQuad
+                      easing.type: Style.easingTypeSlow
                     }
                   }
                 }
@@ -766,7 +766,7 @@ Variants {
               Behavior on color {
                 ColorAnimation {
                   duration: Style.animationNormal
-                  easing.type: Easing.InOutQuad
+                  easing.type: Style.easingTypeSlow
                 }
               }
             }

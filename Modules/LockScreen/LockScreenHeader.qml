@@ -44,12 +44,12 @@ Rectangle {
           ColorAnimation {
             to: Qt.alpha(Color.mPrimary, 1.0)
             duration: 2000
-            easing.type: Easing.InOutQuad
+            easing.type: Style.easingTypeSlow
           }
           ColorAnimation {
             to: Qt.alpha(Color.mPrimary, 0.8)
             duration: 2000
-            easing.type: Easing.InOutQuad
+            easing.type: Style.easingTypeSlow
           }
         }
       }
@@ -67,12 +67,12 @@ Rectangle {
           NumberAnimation {
             to: 1.02
             duration: 4000
-            easing.type: Easing.InOutQuad
+            easing.type: Style.easingTypeSlow
           }
           NumberAnimation {
             to: 1.0
             duration: 4000
-            easing.type: Easing.InOutQuad
+            easing.type: Style.easingTypeSlow
           }
         }
       }

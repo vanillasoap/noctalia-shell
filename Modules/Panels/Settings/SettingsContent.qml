@@ -668,7 +668,7 @@ Item {
         Behavior on Layout.preferredWidth {
           NumberAnimation {
             duration: Style.animationFast
-            easing.type: Easing.InOutQuad
+            easing.type: Style.easingTypeSlow
           }
         }
 
@@ -696,7 +696,7 @@ Item {
                 enabled: !Color.isTransitioning
                 ColorAnimation {
                   duration: Style.animationFast
-                  easing.type: Easing.InOutQuad
+                  easing.type: Style.easingTypeSlow
                 }
               }
 
@@ -745,7 +745,7 @@ Item {
             Behavior on opacity {
               NumberAnimation {
                 duration: Style.animationFast
-                easing.type: Easing.InOutQuad
+                easing.type: Style.easingTypeSlow
               }
             }
 
@@ -767,7 +767,7 @@ Item {
             Behavior on opacity {
               NumberAnimation {
                 duration: Style.animationFast
-                easing.type: Easing.InOutQuad
+                easing.type: Style.easingTypeSlow
               }
             }
 
@@ -783,7 +783,7 @@ Item {
                 enabled: !Color.isTransitioning
                 ColorAnimation {
                   duration: Style.animationFast
-                  easing.type: Easing.InOutQuad
+                  easing.type: Style.easingTypeSlow
                 }
               }
 
@@ -869,7 +869,7 @@ Item {
                   enabled: !Color.isTransitioning
                   ColorAnimation {
                     duration: Style.animationFast
-                    easing.type: Easing.InOutQuad
+                    easing.type: Style.easingTypeSlow
                   }
                 }
 
@@ -951,7 +951,7 @@ Item {
                   enabled: !Color.isTransitioning
                   ColorAnimation {
                     duration: Style.animationFast
-                    easing.type: Easing.InOutQuad
+                    easing.type: Style.easingTypeSlow
                   }
                 }
 
@@ -959,7 +959,7 @@ Item {
                   enabled: !Color.isTransitioning
                   ColorAnimation {
                     duration: Style.animationFast
-                    easing.type: Easing.InOutQuad
+                    easing.type: Style.easingTypeSlow
                   }
                 }
 
@@ -990,7 +990,7 @@ Item {
                     Behavior on opacity {
                       NumberAnimation {
                         duration: Style.animationFast
-                        easing.type: Easing.InOutQuad
+                        easing.type: Style.easingTypeSlow
                       }
                     }
                   }
@@ -1117,7 +1117,7 @@ Item {
                   from: 0
                   to: 1
                   duration: Style.animationSlowest
-                  easing.type: Easing.OutCubic
+                  easing.type: Style.easingTypeDefault
                   running: false
                 }
 
@@ -1189,7 +1189,7 @@ Item {
                   property: "opacity"
                   to: 1.0
                   duration: Style.animationSlow
-                  easing.type: Easing.OutQuad
+                  easing.type: Style.easingTypeFast
                 }
 
                 PauseAnimation {
@@ -1201,7 +1201,7 @@ Item {
                   property: "opacity"
                   to: 0
                   duration: Style.animationSlowest
-                  easing.type: Easing.InQuad
+                  easing.type: Style.easingTypeFast
                 }
               }
             }

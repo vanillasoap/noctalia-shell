@@ -148,7 +148,7 @@ Item {
       enabled: !Color.isTransitioning
       ColorAnimation {
         duration: Style.animationFast
-        easing.type: Easing.InOutQuad
+        easing.type: Style.easingTypeSlow
       }
     }
   }

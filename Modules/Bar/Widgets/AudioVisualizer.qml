@@ -88,13 +88,13 @@ Item {
   Behavior on implicitWidth {
     NumberAnimation {
       duration: Style.animationNormal
-      easing.type: Easing.InOutCubic
+      easing.type: Style.easingTypeSlow
     }
   }
   Behavior on implicitHeight {
     NumberAnimation {
       duration: Style.animationNormal
-      easing.type: Easing.InOutCubic
+      easing.type: Style.easingTypeSlow
     }
   }
 

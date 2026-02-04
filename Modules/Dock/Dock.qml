@@ -583,7 +583,7 @@ Loader {
             Behavior on opacity {
               NumberAnimation {
                 duration: hidden ? hideAnimationDuration : showAnimationDuration
-                easing.type: Easing.InOutQuad
+                easing.type: Style.easingTypeSlow
               }
             }
 
@@ -841,13 +841,13 @@ Loader {
                           Behavior on x {
                             NumberAnimation {
                               duration: Style.animationFast
-                              easing.type: Easing.OutQuad
+                              easing.type: Style.easingTypeFast
                             }
                           }
                           Behavior on y {
                             NumberAnimation {
                               duration: Style.animationFast
-                              easing.type: Easing.OutQuad
+                              easing.type: Style.easingTypeFast
                             }
                           }
                         }
@@ -878,7 +878,7 @@ Loader {
                           Behavior on opacity {
                             NumberAnimation {
                               duration: Style.animationFast
-                              easing.type: Easing.OutQuad
+                              easing.type: Style.easingTypeFast
                             }
                           }
                         }
@@ -895,7 +895,7 @@ Loader {
                           Behavior on opacity {
                             NumberAnimation {
                               duration: Style.animationFast
-                              easing.type: Easing.OutQuad
+                              easing.type: Style.easingTypeFast
                             }
                           }
                         }

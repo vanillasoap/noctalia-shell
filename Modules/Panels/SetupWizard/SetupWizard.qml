@@ -214,13 +214,13 @@ SmartPanel {
                       from: 1.0
                       to: 1.05
                       duration: 2000
-                      easing.type: Easing.InOutQuad
+                      easing.type: Style.easingTypeSlow
                     }
                     NumberAnimation {
                       from: 1.05
                       to: 1.0
                       duration: 2000
-                      easing.type: Easing.InOutQuad
+                      easing.type: Style.easingTypeSlow
                     }
                   }
                 }

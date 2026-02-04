@@ -638,7 +638,7 @@ Item {
               Behavior on color {
                 ColorAnimation {
                   duration: Style.animationFast
-                  easing.type: Easing.OutCubic
+                  easing.type: Style.easingTypeDefault
                 }
               }
             }
@@ -654,7 +654,7 @@ Item {
             Behavior on color {
               ColorAnimation {
                 duration: Style.animationFast
-                easing.type: Easing.OutCubic
+                easing.type: Style.easingTypeDefault
               }
             }
           }
@@ -682,7 +682,7 @@ Item {
               Behavior on color {
                 ColorAnimation {
                   duration: Style.animationFast
-                  easing.type: Easing.OutCubic
+                  easing.type: Style.easingTypeDefault
                 }
               }
             }
@@ -698,7 +698,7 @@ Item {
             Behavior on color {
               ColorAnimation {
                 duration: Style.animationFast
-                easing.type: Easing.OutCubic
+                easing.type: Style.easingTypeDefault
               }
             }
           }
@@ -706,7 +706,7 @@ Item {
           Behavior on border.color {
             ColorAnimation {
               duration: Style.animationFast
-              easing.type: Easing.OutCubic
+              easing.type: Style.easingTypeDefault
             }
           }
         }

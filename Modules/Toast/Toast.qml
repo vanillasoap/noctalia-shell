@@ -163,7 +163,7 @@ Item {
     enabled: !root.useNone && root.useFade
     NumberAnimation {
       duration: Style.animationNormal
-      easing.type: Easing.OutCubic
+      easing.type: Style.easingTypeDefault
     }
   }
 
@@ -171,7 +171,7 @@ Item {
     enabled: !root.useNone && root.useScale
     NumberAnimation {
       duration: Style.animationNormal
-      easing.type: Easing.OutCubic
+      easing.type: Style.easingTypeDefault
     }
   }
 
@@ -179,7 +179,7 @@ Item {
     enabled: !root.useNone && root.useSlide
     NumberAnimation {
       duration: Style.animationNormal
-      easing.type: Easing.OutCubic
+      easing.type: Style.easingTypeDefault
     }
   }
 
