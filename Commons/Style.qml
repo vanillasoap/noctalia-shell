@@ -76,6 +76,25 @@ Singleton {
   readonly property int animationSlow: (Settings.data.general.animationDisabled || PowerProfileService.noctaliaPerformanceMode) ? 0 : Math.round(450 / Settings.data.general.animationSpeed)
   readonly property int animationSlowest: (Settings.data.general.animationDisabled || PowerProfileService.noctaliaPerformanceMode) ? 0 : Math.round(750 / Settings.data.general.animationSpeed)
 
+  // Animation type constants
+  readonly property string animTypeSlide: "slide"
+  readonly property string animTypeScale: "scale"
+  readonly property string animTypeFade: "fade"
+  readonly property string animTypePopin: "popin"
+  readonly property string animTypeSlideScale: "slideScale"
+  readonly property string animTypeSlideFade: "slideFade"
+  readonly property string animTypeNone: "none"
+
+  // Helper to check if animations are disabled
+  readonly property bool animationsDisabled: Settings.data.general.animationDisabled || PowerProfileService.noctaliaPerformanceMode
+
+  // Per-component animation types (read from settings, forced to "none" in performance mode)
+  readonly property string panelAnimationType: animationsDisabled ? "none" : (Settings.data.general.panelAnimationType ?? "slideFade")
+  readonly property string notificationAnimationType: animationsDisabled ? "none" : (Settings.data.general.notificationAnimationType ?? "slideFade")
+  readonly property string osdAnimationType: animationsDisabled ? "none" : (Settings.data.general.osdAnimationType ?? "scale")
+  readonly property string toastAnimationType: animationsDisabled ? "none" : (Settings.data.general.toastAnimationType ?? "slide")
+  readonly property string menuAnimationType: animationsDisabled ? "none" : (Settings.data.general.menuAnimationType ?? "fade")
+
   // Delays
   readonly property int tooltipDelay: 300
   readonly property int tooltipDelayLong: 1200

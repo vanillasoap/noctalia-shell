@@ -60,6 +60,20 @@ Variants {
       return new Set([...iconKeys, ...aliasKeys]);
     }
 
+    // Animation type configuration
+    readonly property string animationType: Style.osdAnimationType
+    readonly property bool useScale: animationType === "scale" || animationType === "popin" || animationType === "slideScale"
+    readonly property bool useFade: animationType === "fade" || animationType === "popin" || animationType === "slideFade"
+    readonly property bool useNone: animationType === "none"
+    readonly property real animationScaleValue: {
+      switch (animationType) {
+        case "scale": return 0.85
+        case "popin": return 0.5
+        case "slideScale": return 0.95
+        default: return 0.85
+      }
+    }
+
     function getIcon() {
       switch (currentOSDType) {
       case OSD.Type.Volume:
@@ -473,9 +487,10 @@ Variants {
         anchors.fill: parent
         visible: false
         opacity: 0
-        scale: 0.85
+        scale: root.useScale ? root.animationScaleValue : 1.0
 
         Behavior on opacity {
+          enabled: !root.useNone && root.useFade
           NumberAnimation {
             duration: Style.animationNormal
             easing.type: Easing.InOutQuad
@@ -483,6 +498,7 @@ Variants {
         }
 
         Behavior on scale {
+          enabled: !root.useNone && root.useScale
           NumberAnimation {
             duration: Style.animationNormal
             easing.type: Easing.InOutQuad
@@ -762,10 +778,10 @@ Variants {
         // show.
         Timer {
           id: showDelayTimer
-          interval: 30
+          interval: root.useNone ? 0 : 30
           onTriggered: {
             osdItem.visible = true;
-            osdItem.opacity = 1;
+            osdItem.opacity = root.useFade ? 1 : 1;
             osdItem.scale = 1.0;
             hideTimer.start();
           }
@@ -774,22 +790,36 @@ Variants {
         function show() {
           hideTimer.stop();
           visibilityTimer.stop();
-          showDelayTimer.start();
+          if (root.useNone) {
+            osdItem.visible = true;
+            osdItem.opacity = 1;
+            osdItem.scale = 1.0;
+            hideTimer.start();
+          } else {
+            showDelayTimer.start();
+          }
         }
 
         function hide() {
           hideTimer.stop();
           visibilityTimer.stop();
-          osdItem.opacity = 0;
-          osdItem.scale = 0.85;
-          visibilityTimer.start();
+          if (root.useNone) {
+            osdItem.visible = false;
+            root.currentOSDType = -1;
+            root.lastLockKeyChanged = "";
+            root.active = false;
+          } else {
+            osdItem.opacity = root.useFade ? 0 : 1;
+            osdItem.scale = root.useScale ? root.animationScaleValue : 1.0;
+            visibilityTimer.start();
+          }
         }
 
         function hideImmediately() {
           hideTimer.stop();
           visibilityTimer.stop();
           osdItem.opacity = 0;
-          osdItem.scale = 0.85;
+          osdItem.scale = root.useScale ? root.animationScaleValue : 1.0;
           osdItem.visible = false;
           root.currentOSDType = -1;
           root.active = false;

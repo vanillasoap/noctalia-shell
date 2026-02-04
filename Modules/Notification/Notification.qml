@@ -200,6 +200,21 @@ Variants {
             readonly property int animationDelay: index * 100
             readonly property int slideDistance: 300
 
+            // Animation type configuration
+            readonly property string animationType: Style.notificationAnimationType
+            readonly property bool useSlide: animationType === "slide" || animationType === "slideScale" || animationType === "slideFade"
+            readonly property bool useScale: animationType === "scale" || animationType === "popin" || animationType === "slideScale"
+            readonly property bool useFade: animationType === "fade" || animationType === "popin" || animationType === "slideFade"
+            readonly property bool useNone: animationType === "none"
+            readonly property real animationScaleValue: {
+              switch (animationType) {
+                case "scale": return 0.9
+                case "popin": return 0.5
+                case "slideScale": return 0.95
+                default: return 0.8
+              }
+            }
+
             Layout.preferredWidth: notifWidth + notifWindow.shadowPadding * 2
             Layout.preferredHeight: notificationContent.implicitHeight + Style.marginXL + notifWindow.shadowPadding * 2
             Layout.maximumHeight: Layout.preferredHeight
@@ -317,16 +332,17 @@ Variants {
               resumeTimer.stop();
               isRemoving = false;
               hoverCount = 0;
-              if (Settings.data.general.animationDisabled) {
+              if (useNone) {
                 slideOffset = 0;
                 scaleValue = 1.0;
                 opacityValue = 1.0;
                 return;
               }
 
-              slideOffset = slideInOffset;
-              scaleValue = 0.8;
-              opacityValue = 0.0;
+              // Set initial values based on animation type
+              slideOffset = useSlide ? slideInOffset : 0;
+              scaleValue = useScale ? animationScaleValue : 1.0;
+              opacityValue = useFade ? 0.0 : 1.0;
               animInDelayTimer.interval = animationDelay;
               animInDelayTimer.start();
             }
@@ -354,10 +370,11 @@ Variants {
               animInDelayTimer.stop();
               resumeTimer.stop();
               isRemoving = true;
-              if (!Settings.data.general.animationDisabled) {
-                slideOffset = slideOutOffset;
-                scaleValue = 0.8;
-                opacityValue = 0.0;
+              if (!useNone) {
+                // Set exit values based on animation type
+                slideOffset = useSlide ? slideOutOffset : 0;
+                scaleValue = useScale ? animationScaleValue : 1.0;
+                opacityValue = useFade ? 0.0 : 1.0;
               }
             }
 
@@ -377,7 +394,7 @@ Variants {
             }
 
             Behavior on scale {
-              enabled: !Settings.data.general.animationDisabled
+              enabled: !card.useNone && card.useScale
               SpringAnimation {
                 spring: 3
                 damping: 0.4
@@ -387,7 +404,7 @@ Variants {
             }
 
             Behavior on opacity {
-              enabled: !Settings.data.general.animationDisabled
+              enabled: !card.useNone && card.useFade
               NumberAnimation {
                 duration: Style.animationNormal
                 easing.type: Easing.OutCubic
@@ -395,7 +412,7 @@ Variants {
             }
 
             Behavior on slideOffset {
-              enabled: !Settings.data.general.animationDisabled
+              enabled: !card.useNone && card.useSlide
               SpringAnimation {
                 spring: 2.5
                 damping: 0.3

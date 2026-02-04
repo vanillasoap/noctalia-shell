@@ -43,6 +43,20 @@ PopupWindow {
 
   readonly property int menuWidth: 220
 
+  // Animation type configuration
+  readonly property string animationType: Style.menuAnimationType
+  readonly property bool useScale: animationType === "scale" || animationType === "popin" || animationType === "slideScale"
+  readonly property bool useFade: animationType === "fade" || animationType === "popin" || animationType === "slideFade"
+  readonly property bool useNone: animationType === "none"
+  readonly property real animationScaleValue: {
+    switch (animationType) {
+      case "scale": return 0.9
+      case "popin": return 0.5
+      case "slideScale": return 0.95
+      default: return 0.9
+    }
+  }
+
   implicitWidth: menuWidth
 
   // Use the content height of the Flickable for implicit height
@@ -219,10 +233,21 @@ PopupWindow {
     border.width: Math.max(1, Style.borderS)
     radius: Style.radiusM
 
-    // Fade-in animation
-    opacity: root.visible ? 1.0 : 0.0
+    // Animation properties
+    opacity: root.useNone ? (root.visible ? 1.0 : 0.0) : (root.visible ? 1.0 : (root.useFade ? 0.0 : 1.0))
+    scale: root.useNone ? 1.0 : (root.visible ? 1.0 : (root.useScale ? root.animationScaleValue : 1.0))
+    transformOrigin: Item.Top
 
     Behavior on opacity {
+      enabled: !root.useNone && root.useFade
+      NumberAnimation {
+        duration: Style.animationNormal
+        easing.type: Easing.OutQuad
+      }
+    }
+
+    Behavior on scale {
+      enabled: !root.useNone && root.useScale
       NumberAnimation {
         duration: Style.animationNormal
         easing.type: Easing.OutQuad
@@ -237,10 +262,21 @@ PopupWindow {
     contentHeight: columnLayout.implicitHeight
     interactive: true
 
-    // Fade-in animation
-    opacity: root.visible ? 1.0 : 0.0
+    // Animation properties
+    opacity: root.useNone ? (root.visible ? 1.0 : 0.0) : (root.visible ? 1.0 : (root.useFade ? 0.0 : 1.0))
+    scale: root.useNone ? 1.0 : (root.visible ? 1.0 : (root.useScale ? root.animationScaleValue : 1.0))
+    transformOrigin: Item.Top
 
     Behavior on opacity {
+      enabled: !root.useNone && root.useFade
+      NumberAnimation {
+        duration: Style.animationNormal
+        easing.type: Easing.OutQuad
+      }
+    }
+
+    Behavior on scale {
+      enabled: !root.useNone && root.useScale
       NumberAnimation {
         duration: Style.animationNormal
         easing.type: Easing.OutQuad

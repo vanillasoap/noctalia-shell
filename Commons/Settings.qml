@@ -25,7 +25,7 @@ Singleton {
   - Default cache directory: ~/.cache/noctalia
   */
   readonly property alias data: adapter  // Used to access via Settings.data.xxx.yyy
-  readonly property int settingsVersion: 47
+  readonly property int settingsVersion: 48
   readonly property bool isDebug: Quickshell.env("NOCTALIA_DEBUG") === "1"
   readonly property string shellName: "noctalia"
   readonly property string configDir: Quickshell.env("NOCTALIA_CONFIG_DIR") || (Quickshell.env("XDG_CONFIG_HOME") || Quickshell.env("HOME") + "/.config") + "/" + shellName + "/"
@@ -267,6 +267,11 @@ Singleton {
       property real screenRadiusRatio: 1.0
       property real animationSpeed: 1.0
       property bool animationDisabled: false
+      property string panelAnimationType: "slideFade"
+      property string notificationAnimationType: "slideFade"
+      property string osdAnimationType: "scale"
+      property string toastAnimationType: "slide"
+      property string menuAnimationType: "fade"
       property bool compactLockScreen: false
       property bool lockOnSuspend: true
       property bool showSessionButtonsOnLockScreen: true

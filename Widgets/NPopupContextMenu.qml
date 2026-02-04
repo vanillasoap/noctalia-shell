@@ -30,6 +30,20 @@ PopupWindow {
   readonly property string barPosition: Settings.getBarPositionForScreen(screen?.name)
   readonly property real barHeight: Style.getBarHeightForScreen(screen?.name)
 
+  // Animation type configuration
+  readonly property string animationType: Style.menuAnimationType
+  readonly property bool useScale: animationType === "scale" || animationType === "popin" || animationType === "slideScale"
+  readonly property bool useFade: animationType === "fade" || animationType === "popin" || animationType === "slideFade"
+  readonly property bool useNone: animationType === "none"
+  readonly property real animationScaleValue: {
+    switch (animationType) {
+      case "scale": return 0.9
+      case "popin": return 0.5
+      case "slideScale": return 0.95
+      default: return 0.9
+    }
+  }
+
   signal triggered(string action, var item)
 
   implicitWidth: calculatedWidth
@@ -212,9 +226,22 @@ PopupWindow {
     border.color: Color.mOutline
     border.width: Style.borderS
     radius: Style.radiusM
-    opacity: root.visible ? 1.0 : 0.0
+
+    // Animation properties
+    opacity: root.useNone ? (root.visible ? 1.0 : 0.0) : (root.visible ? 1.0 : (root.useFade ? 0.0 : 1.0))
+    scale: root.useNone ? 1.0 : (root.visible ? 1.0 : (root.useScale ? root.animationScaleValue : 1.0))
+    transformOrigin: Item.Top
 
     Behavior on opacity {
+      enabled: !root.useNone && root.useFade
+      NumberAnimation {
+        duration: Style.animationNormal
+        easing.type: Easing.OutQuad
+      }
+    }
+
+    Behavior on scale {
+      enabled: !root.useNone && root.useScale
       NumberAnimation {
         duration: Style.animationNormal
         easing.type: Easing.OutQuad
@@ -228,9 +255,22 @@ PopupWindow {
     anchors.margins: Style.marginS
     contentHeight: columnLayout.implicitHeight
     interactive: true
-    opacity: root.visible ? 1.0 : 0.0
+
+    // Animation properties
+    opacity: root.useNone ? (root.visible ? 1.0 : 0.0) : (root.visible ? 1.0 : (root.useFade ? 0.0 : 1.0))
+    scale: root.useNone ? 1.0 : (root.visible ? 1.0 : (root.useScale ? root.animationScaleValue : 1.0))
+    transformOrigin: Item.Top
 
     Behavior on opacity {
+      enabled: !root.useNone && root.useFade
+      NumberAnimation {
+        duration: Style.animationNormal
+        easing.type: Easing.OutQuad
+      }
+    }
+
+    Behavior on scale {
+      enabled: !root.useNone && root.useScale
       NumberAnimation {
         duration: Style.animationNormal
         easing.type: Easing.OutQuad
