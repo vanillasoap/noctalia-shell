@@ -95,6 +95,11 @@ Singleton {
   readonly property string toastAnimationType: animationsDisabled ? "none" : (Settings.data.general.toastAnimationType ?? "slide")
   readonly property string menuAnimationType: animationsDisabled ? "none" : (Settings.data.general.menuAnimationType ?? "fade")
 
+  // Animation easing curves (read from settings, forced to Linear in performance mode)
+  readonly property int easingTypeDefault: animationsDisabled ? Easing.Linear : Settings.easingFromString(Settings.data.general.easingType ?? "OutCubic")
+  readonly property int easingTypeFast: animationsDisabled ? Easing.Linear : Settings.easingFromString(Settings.data.general.easingTypeFast ?? "OutQuad")
+  readonly property int easingTypeSlow: animationsDisabled ? Easing.Linear : Settings.easingFromString(Settings.data.general.easingTypeSlow ?? "InOutQuad")
+
   // Delays
   readonly property int tooltipDelay: 300
   readonly property int tooltipDelayLong: 1200

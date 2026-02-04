@@ -25,7 +25,7 @@ Singleton {
   - Default cache directory: ~/.cache/noctalia
   */
   readonly property alias data: adapter  // Used to access via Settings.data.xxx.yyy
-  readonly property int settingsVersion: 48
+  readonly property int settingsVersion: 49
   readonly property bool isDebug: Quickshell.env("NOCTALIA_DEBUG") === "1"
   readonly property string shellName: "noctalia"
   readonly property string configDir: Quickshell.env("NOCTALIA_CONFIG_DIR") || (Quickshell.env("XDG_CONFIG_HOME") || Quickshell.env("HOME") + "/.config") + "/" + shellName + "/"
@@ -272,6 +272,9 @@ Singleton {
       property string osdAnimationType: "scale"
       property string toastAnimationType: "slide"
       property string menuAnimationType: "fade"
+      property string easingType: "OutCubic"
+      property string easingTypeFast: "OutQuad"
+      property string easingTypeSlow: "InOutQuad"
       property bool compactLockScreen: false
       property bool lockOnSuspend: true
       property bool showSessionButtonsOnLockScreen: true
@@ -758,6 +761,39 @@ Singleton {
     }
 
     return String(defaultValue);
+  }
+
+  // -----------------------------------------------------
+  // Convert easing type string to QML Easing enum value
+  function easingFromString(name) {
+    const map = {
+      "Linear": Easing.Linear,
+      "InQuad": Easing.InQuad,
+      "OutQuad": Easing.OutQuad,
+      "InOutQuad": Easing.InOutQuad,
+      "InCubic": Easing.InCubic,
+      "OutCubic": Easing.OutCubic,
+      "InOutCubic": Easing.InOutCubic,
+      "InQuart": Easing.InQuart,
+      "OutQuart": Easing.OutQuart,
+      "InOutQuart": Easing.InOutQuart,
+      "InQuint": Easing.InQuint,
+      "OutQuint": Easing.OutQuint,
+      "InOutQuint": Easing.InOutQuint,
+      "InExpo": Easing.InExpo,
+      "OutExpo": Easing.OutExpo,
+      "InOutExpo": Easing.InOutExpo,
+      "InBack": Easing.InBack,
+      "OutBack": Easing.OutBack,
+      "InOutBack": Easing.InOutBack,
+      "InElastic": Easing.InElastic,
+      "OutElastic": Easing.OutElastic,
+      "InOutElastic": Easing.InOutElastic,
+      "InBounce": Easing.InBounce,
+      "OutBounce": Easing.OutBounce,
+      "InOutBounce": Easing.InOutBounce
+    };
+    return map[name] ?? Easing.OutCubic;
   }
 
   // -----------------------------------------------------
