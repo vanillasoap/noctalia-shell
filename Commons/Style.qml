@@ -62,19 +62,100 @@ Singleton {
   readonly property real opacityAlmost: 0.95
   readonly property real opacityFull: 1.0
 
-  // Shadows
-  readonly property real shadowOpacity: 0.85
-  readonly property real shadowBlur: 1.0
-  readonly property int shadowBlurMax: 22
-  readonly property real shadowHorizontalOffset: Settings.data.general.shadowOffsetX
-  readonly property real shadowVerticalOffset: Settings.data.general.shadowOffsetY
+  // ──────────────────────────────────────────────────────────────
+  // Shadows — macOS-style two-layer: contact + ambient
+  // ──────────────────────────────────────────────────────────────
 
-  // Animation duration (ms)
+  // Base offsets from settings
+  readonly property int shadowOffsetX: Settings.data.general.shadowOffsetX ?? 2
+  readonly property int shadowOffsetY: Settings.data.general.shadowOffsetY ?? 3
+
+  // Clamp helper
+  function clamp(v, lo, hi) {
+    return Math.max(lo, Math.min(hi, v));
+  }
+
+  // Elevation scalar derived from offset magnitude (0..1)
+  readonly property real shadowElevation: clamp(Math.hypot(shadowOffsetX, shadowOffsetY) / 12.0, 0.0, 1.0)
+
+  // Master intensity — expose in settings later if desired
+  readonly property real shadowIntensity: 1.0
+
+  // Layer 1 — contact shadow (tight, defines shape)
+  readonly property real shadowContactOpacity: (0.10 + 0.10 * shadowElevation) * shadowIntensity
+  readonly property real shadowContactBlur: (6 + 6 * shadowElevation)
+  readonly property real shadowContactX: shadowOffsetX * 0.35
+  readonly property real shadowContactY: shadowOffsetY * 0.35
+
+  // Layer 2 — ambient shadow (soft, atmospheric depth)
+  readonly property real shadowAmbientOpacity: (0.04 + 0.06 * shadowElevation) * shadowIntensity
+  readonly property real shadowAmbientBlur: (22 + 26 * shadowElevation)
+  readonly property real shadowAmbientX: shadowOffsetX * 0.80
+  readonly property real shadowAmbientY: shadowOffsetY * 0.80
+
+  // Hard cap for blur radius
+  readonly property int shadowBlurMax: 50
+
+  // Backward-compatible aliases — existing consumers keep working
+  readonly property real shadowOpacity: shadowContactOpacity
+  readonly property real shadowBlur: shadowContactBlur
+  readonly property real shadowHorizontalOffset: shadowContactX
+  readonly property real shadowVerticalOffset: shadowContactY
+
+  // ──────────────────────────────────────────────────────────────
+  // Animation — Apple HIG / macOS-style timing
+  // ──────────────────────────────────────────────────────────────
+
+  // Duration (ms) — tightened for macOS-style responsiveness
   readonly property int animationFaster: (Settings.data.general.animationDisabled || PowerProfileService.noctaliaPerformanceMode) ? 0 : Math.round(75 / Settings.data.general.animationSpeed)
   readonly property int animationFast: (Settings.data.general.animationDisabled || PowerProfileService.noctaliaPerformanceMode) ? 0 : Math.round(150 / Settings.data.general.animationSpeed)
-  readonly property int animationNormal: (Settings.data.general.animationDisabled || PowerProfileService.noctaliaPerformanceMode) ? 0 : Math.round(300 / Settings.data.general.animationSpeed)
-  readonly property int animationSlow: (Settings.data.general.animationDisabled || PowerProfileService.noctaliaPerformanceMode) ? 0 : Math.round(450 / Settings.data.general.animationSpeed)
-  readonly property int animationSlowest: (Settings.data.general.animationDisabled || PowerProfileService.noctaliaPerformanceMode) ? 0 : Math.round(750 / Settings.data.general.animationSpeed)
+  readonly property int animationNormal: (Settings.data.general.animationDisabled || PowerProfileService.noctaliaPerformanceMode) ? 0 : Math.round(250 / Settings.data.general.animationSpeed)
+  readonly property int animationSlow: (Settings.data.general.animationDisabled || PowerProfileService.noctaliaPerformanceMode) ? 0 : Math.round(400 / Settings.data.general.animationSpeed)
+  readonly property int animationSlowest: (Settings.data.general.animationDisabled || PowerProfileService.noctaliaPerformanceMode) ? 0 : Math.round(600 / Settings.data.general.animationSpeed)
+
+  readonly property bool animationsDisabled: Settings.data.general.animationDisabled || PowerProfileService.noctaliaPerformanceMode
+
+  // Easing type for Behavior / Transition usage
+  readonly property int easingTypeDefault: animationsDisabled ? Easing.Linear : Easing.BezierSpline
+
+  // ── macOS Core Animation timing functions ────────────────────
+  // Extracted from CAMediaTimingFunction named constants
+  readonly property QtObject animationCurves: QtObject {
+    // CAMediaTimingFunctionName.default — the system default for
+    // implicit CA animations. Slight ease-in, strong ease-out.
+    // This is THE curve to reach for by default.
+    readonly property var macosDefault: [0.25, 0.10, 0.25, 1.00, 1, 1]
+
+    // CAMediaTimingFunctionName.easeInEaseOut — symmetric S-curve,
+    // good for toggles, switches, anything that moves A→B→A
+    readonly property var macosEaseInOut: [0.42, 0.00, 0.58, 1.00, 1, 1]
+
+    // CAMediaTimingFunctionName.easeIn — accelerates from rest,
+    // use for elements leaving / dismissals
+    readonly property var macosEaseIn: [0.42, 0.00, 1.00, 1.00, 1, 1]
+
+    // CAMediaTimingFunctionName.easeOut — decelerates to rest,
+    // use for elements arriving / appearing
+    readonly property var macosEaseOut: [0.00, 0.00, 0.58, 1.00, 1, 1]
+
+    // ── Extended Apple HIG curves ──────────────────────────────
+    // Snappy interaction — button presses, hover states, micro-feedback
+    readonly property var appleSnappy: [0.20, 0.00, 0.00, 1.00, 1, 1]
+
+    // Spatial movement with overshoot — sheet/popover presentation
+    readonly property var appleSpatial: [0.22, 1.00, 0.36, 1.00, 1, 1]
+
+    // Bouncy spring — notification entry, playful popovers
+    readonly property var appleSpringy: [0.28, 1.40, 0.32, 1.00, 1, 1]
+  }
+
+  // Default easing assignments for shell-wide usage
+  // (components can still reference animationCurves.* directly)
+  readonly property var easingCurveDefault: animationCurves.macosDefault
+  readonly property var easingCurveFast: animationCurves.appleSnappy
+  readonly property var easingCurveSlow: animationCurves.macosEaseInOut
+  readonly property var easingCurveEnter: animationCurves.macosEaseOut
+  readonly property var easingCurveExit: animationCurves.macosEaseIn
 
   // Delays
   readonly property int tooltipDelay: 300
@@ -137,7 +218,7 @@ Singleton {
 
   // The base/default font size for all texts in the bar
   readonly property real _barBaseFontSize: Math.max(1, (Style.barHeight / Style.capsuleHeight) * Style.fontSizeXXS)
-  readonly property real barFontSize: (Settings.data.bar.position === "left" || Settings.data.bar.position === "right") ? _barBaseFontSize * 0.9 : _barBaseFontSize
+  readonly property real barFontSize: (Settings.data.bar.position === "left" || Settings.data.bar.position === "right") ? _barBaseFontSize * 1 : _barBaseFontSize
 
   readonly property color capsuleColor: Settings.data.bar.showCapsule ? Qt.alpha(Settings.data.bar.capsuleColorKey !== "none" ? Color.resolveColorKey(Settings.data.bar.capsuleColorKey) : Color.mSurfaceVariant, Settings.data.bar.capsuleOpacity) : "transparent"
 
